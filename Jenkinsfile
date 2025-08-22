@@ -6,16 +6,13 @@ pipeline {
             steps {
                 script {
                     docker.image('php:8.2-fpm').inside {
-                        // Change to a valid working directory within the container
-                        dir('/var/www/html') { 
-                            echo 'Start der Build- und Test-Phase...'
+                        echo 'Start der Build- und Test-Phase...'
 
-                            // 1. Abhängigkeiten installieren
-                            sh 'composer install'
+                        // 1. Abhängigkeiten installieren
+                        sh 'composer install'
 
-                            // 2. Unit-Tests ausführen
-                            sh './vendor/bin/phpunit'
-                        }
+                        // 2. Unit-Tests ausführen
+                        sh './vendor/bin/phpunit'
                     }
                 }
             }
