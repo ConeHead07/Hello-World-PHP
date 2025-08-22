@@ -2,8 +2,16 @@ pipeline {
     agent {
         docker {
             image 'php:8.2-fpm'
+            // Add a container-specific working directory
+            args '-w /var/www/html'
         }
     }
+
+    // environment {
+    //     // This is the key fix: it tells Jenkins to mount the workspace
+    //     // to a specific directory in the container
+    //     DOCKER_MOUNT_CONTAINER_WORKSPACE = 'true'
+    // }
 
     stages {
         stage('Build and Test') {
