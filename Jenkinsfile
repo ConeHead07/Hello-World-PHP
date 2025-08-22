@@ -9,10 +9,10 @@ pipeline {
                         echo 'Start der Build- und Test-Phase...'
 
                         // 1. Abhängigkeiten installieren
-                        sh 'composer install'
+                        sh 'set -x; composer install || { echo "Fehler bei der Composer-Installation!"; exit 1; }'
 
                         // 2. Unit-Tests ausführen
-                        sh './vendor/bin/phpunit'
+                        sh 'set -x; ./vendor/bin/phpunit || { echo "Fehler bei der Ausführung der Unit-Tests!"; exit 1; }'
                     }
                 }
             }
