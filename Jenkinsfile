@@ -5,7 +5,11 @@ pipeline {
         stage('Build and Test') {
             steps {
                 script {
-                    def containerId = sh(returnStdout: true, script: "docker run -d -v ${env.WORKSPACE}:/app -w /app php:8.2-fpm tail -f /dev/null").trim()
+                    def workspacePath = env.WORKSPACE.replace('\', '/')
+                    if (workspacePath.startsWith('C:/')) {
+                        workspacePath = '/c/' + workspacePath.substring(3)
+                    }
+                    def containerId = sh(returnStdout: true, script: "docker run -d -v ${workspacePath}:/app -w /app php:8.2-fpm tail -f /dev/null").trim()
                     try {
                         echo 'Start der Build- und Test-Phase im Docker-Container...'
 
