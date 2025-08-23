@@ -5,7 +5,7 @@ pipeline {
         stage('Build and Test') {
             steps {
                 script {
-                    docker.image('php:8.2-fpm').inside(args: "-v ${env.WORKSPACE}:/app -w /app") {
+                    docker.image('php:8.2-fpm').inside([args: "-v ${env.WORKSPACE}:/app -w /app"]) {
                         echo 'Start der Build- und Test-Phase...'
 
                         // 1. Abhängigkeiten installieren
