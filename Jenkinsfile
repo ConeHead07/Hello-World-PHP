@@ -20,10 +20,10 @@ pipeline {
                         echo 'Start der Build- und Test-Phase im Docker-Container...'
 
                         // 1. Fehlende Tools installieren (vor Composer!)
-                        bat "docker exec ${containerId} sh -c \"apt-get update && apt-get install -y unzip git\""
+                        // bat "docker exec ${containerId} sh -c \"apt-get update && apt-get install -y unzip git\""
 
                         // 2. Composer installieren
-                        bat "docker exec ${containerId} sh -c \"php -r \\\"copy('https://getcomposer.org/installer', 'composer-setup.php');\\\" && php composer-setup.php --install-dir=/usr/local/bin --filename=composer && rm composer-setup.php\""
+                        // bat "docker exec ${containerId} sh -c \"php -r \\\"copy('https://getcomposer.org/installer', 'composer-setup.php');\\\" && php composer-setup.php --install-dir=/usr/local/bin --filename=composer && rm composer-setup.php\""
 
                         // 3. Abhängigkeiten installieren
                         bat "docker exec ${containerId} sh -c \"set -x; composer install || { echo 'Fehler bei der Composer-Installation!'; exit 1; }\""
