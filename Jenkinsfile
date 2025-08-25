@@ -32,7 +32,7 @@ pipeline {
                         // bat "docker exec ${containerId} sh -c \"set -x; composer install || { echo 'Fehler bei der Composer-Installation!'; exit 1; }\""
 
                         // 2. Unit-Tests ausführen
-                        bat "docker exec ${containerId} sh -c \"set -x; ./vendor/bin/phpunit || { echo 'Fehler bei der Ausführung der Unit-Tests!'; exit 1; }\""
+                        bat "docker exec ${containerId} sh -c \"set -x; ./vendor/bin/phpunit --log-junit junit.xml || { echo 'Fehler bei der Ausführung der Unit-Tests!'; exit 1; }\""
                     } finally {
                         bat "docker stop ${containerId}"
                         bat "docker rm ${containerId}"
