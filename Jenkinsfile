@@ -9,7 +9,9 @@ pipeline {
                     if (workspacePath.startsWith('C:/')) {
                         workspacePath = '/c/' + workspacePath.substring(3)
                     }
-                    bat "docker run -d -v ${workspacePath}:/app -w /app php:8.2-fpm tail -f /dev/null > cid.txt"
+                    // my-php-app
+                    bat "docker run -d -v ${workspacePath}:/app -w /app my-php-app tail -f /dev/null > cid.txt"
+                    // bat "docker run -d -v ${workspacePath}:/app -w /app php:8.2-fpm tail -f /dev/null > cid.txt"
                     def containerId = readFile('cid.txt').readLines()[0].trim()
                     // def containerId = readFile('cid.txt').trim()
                     // def containerId = bat(returnStdout: true, script: "docker run -d -v ${workspacePath}:/app -w /app php:8.2-fpm tail -f /dev/null").trim()
