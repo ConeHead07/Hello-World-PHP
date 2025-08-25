@@ -18,13 +18,13 @@ pipeline {
                         echo 'Start der Build- und Test-Phase im Docker-Container...'
 
                         // 1. Abhängigkeiten installieren
-                        bat "docker exec ${containerId} sh -c 'set -x; composer install || { echo \"Fehler bei der Composer-Installation!\"; exit 1; }'"
+                        bat "docker exec ${containerId} sh -c \"set -x; composer install || { echo 'Fehler bei der Composer-Installation!''; exit 1; }\""
 
                         // 2. Unit-Tests ausführen
-                        bat "docker exec ${containerId} sh -c 'set -x; ./vendor/bin/phpunit || { echo \"Fehler bei der Ausführung der Unit-Tests!\"; exit 1; }'"
+                        bat "docker exec ${containerId} sh -c \"set -x; ./vendor/bin/phpunit || { echo 'Fehler bei der Ausführung der Unit-Tests!'; exit 1; }\""
                     } finally {
-                        sh "docker stop ${containerId}"
-                        sh "docker rm ${containerId}"
+                        bat "docker stop ${containerId}"
+                        bat "docker rm ${containerId}"
                     }
                 }
             }
