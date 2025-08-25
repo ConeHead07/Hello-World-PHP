@@ -5,7 +5,7 @@ pipeline {
         stage('Build and Test') {
             steps {
                 script {
-                    def workspacePath = env.WORKSPACE.replace('\', '/')
+                    def workspacePath = env.WORKSPACE.replace('\\', '/')
                     if (workspacePath.startsWith('C:/')) {
                         workspacePath = '/c/' + workspacePath.substring(3)
                     }
