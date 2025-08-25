@@ -9,18 +9,19 @@ pipeline {
                     if (workspacePath.startsWith('C:/')) {
                         workspacePath = '/c/' + workspacePath.substring(3)
                     }
-                    def containerId = bat(returnStdout: true, script: "docker run -d -v ${workspacePath}:/app -w /app php:8.2-fpm tail -f /dev/null").trim()
+                    def containerId = sh(returnStdout: true, script: "MSYS_NO_PATHCONV=1 docker run -d -v ${workspacePath}:/app -w /app php:8.2-fpm tail -f /dev/null").trim()
+                    echo "Docker-Container gestartet: ${containerId}"
                     try {
                         echo 'Start der Build- und Test-Phase im Docker-Container...'
 
                         // 1. Abhängigkeiten installieren
-                        bat "docker exec ${containerId} sh -c 'set -x; composer install || { echo \"Fehler bei der Composer-Installation!\"; exit 1; }'"
+                        sh "MSYS_NO_PATHCONV=1 docker exec ${containerId} sh -c 'set -x; composer install || { echo \"Fehler bei der Composer-Installation!\"; exit 1; }'"
 
                         // 2. Unit-Tests ausführen
-                        bat "docker exec ${containerId} sh -c 'set -x; ./vendor/bin/phpunit || { echo \"Fehler bei der Ausführung der Unit-Tests!\"; exit 1; }'"
+                        sh "MSYS_NO_PATHCONV=1 docker exec ${containerId} sh -c 'set -x; ./vendor/bin/phpunit || { echo \"Fehler bei der Ausführung der Unit-Tests!\"; exit 1; }'"
                     } finally {
-                        bat "docker stop ${containerId}"
-                        bat "docker rm ${containerId}"
+                        sh "docker stop ${containerId}"
+                        sh "docker rm ${containerId}"
                     }
                 }
             }
